@@ -13,7 +13,7 @@ configure_requires:
   ExtUtils::MakeMaker: '0'
 dynamic_config: 1
 generated_by: 'ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.141170'
-license: unknown
+license: mit
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
@@ -28,12 +28,13 @@ requires:
   HTTP::Status: '0'
   JSON::XS: '0'
   LWP::UserAgent: '0'
-  Moose: '0'
+  Moo: '0'
+  MooX::Types::MooseLike::Base: '0'
   Sys::Hostname: '0'
   URI: '0'
   UUID::Tiny: '0'
   perl: '5.008'
 resources:
   repository: https://github.com/rentrak/perl-raven
-version: '0.01'
+version: '0.02'
 x_homepage: https://github.com/rentrak/perl-raven
