@@ -11,15 +11,14 @@ local $ENV{SENTRY_DSN} = 'http://key:secret@somewhere.com:9000/foo/123';
 my $raven = Sentry::Raven->new();
 
 subtest 'message' => sub {
-    my $event = $raven->_generate_event(message => 'mymessage', level => 'info');
+    my $event = $raven->_construct_message_event('mymessage', level => 'info');
 
     is($event->{message}, 'mymessage');
     is($event->{level}, 'info');
 };
 
 subtest 'exception' => sub {
-    my $event = $raven->_generate_event(level => 'info');
-    $event = $raven->_add_exception_to_event($event, 'OperationFailedException', 'Operation completed successfully');
+    my $event = $raven->_construct_exception_event('Operation completed successfully', type => 'OperationFailedException', level => 'info');
 
     is($event->{level}, 'info');
     is_deeply(
@@ -32,9 +31,7 @@ subtest 'exception' => sub {
 };
 
 subtest 'request' => sub {
-    my $event = $raven->_generate_event(level => 'info');
-    $event = $raven->_add_request_to_event(
-        $event,
+    my $event = $raven->_construct_request_event(
         'http://google.com',
         method       => 'GET',
         data         => { foo => 'bar' },
@@ -42,6 +39,7 @@ subtest 'request' => sub {
         cookies      => 'foo=bar',
         headers      => { 'Content-Type' => 'text/html' },
         env          => { REMOTE_ADDR => '192.168.0.1' },
+        level        => 'info',
     );
 
     is($event->{level}, 'info');
@@ -79,13 +77,39 @@ subtest 'stacktrace' => sub {
         },
     ];
 
-    my $event = $raven->_generate_event(level => 'info');
-    $event = $raven->_add_stacktrace_to_event($event, $frames);
+    my $event = $raven->_construct_stacktrace_event($frames, level => 'info');
 
     is($event->{level}, 'info');
     is_deeply(
         $event->{'sentry.interfaces.Stacktrace'},
         { frames => $frames },
+    );
+};
+
+subtest 'user' => sub {
+    my $event = $raven->_construct_user_event( id => 'myid', username => 'myusername', email => 'my@email.com', level => 'info');
+
+    is($event->{level}, 'info');
+    is_deeply(
+        $event->{'sentry.interfaces.User'},
+        {
+            id       => 'myid',
+            username => 'myusername',
+            email    => 'my@email.com',
+        },
+    );
+};
+
+subtest 'query' => sub {
+    my $event = $raven->_construct_query_event( 'select 1', engine => 'DBD::Pg', level => 'info');
+
+    is($event->{level}, 'info');
+    is_deeply(
+        $event->{'sentry.interfaces.Query'},
+        {
+            query  => 'select 1',
+            engine => 'DBD::Pg',
+        },
     );
 };
 
