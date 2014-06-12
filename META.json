@@ -50,6 +50,7 @@
       },
       "test" : {
          "requires" : {
+            "File::Spec" : "0",
             "HTTP::Response" : "0",
             "Test::CPAN::Changes::ReallyStrict" : "0",
             "Test::LWP::UserAgent" : "0",
@@ -65,6 +66,6 @@
          "web" : "https://github.com/rentrak/perl-raven"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_homepage" : "https://github.com/rentrak/perl-raven"
 }
