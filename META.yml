@@ -10,6 +10,7 @@ build_requires:
   Test::LWP::UserAgent: '0'
   Test::More: '0.88'
   Test::Perl::Critic: '0'
+  Test::Warn: '0.3'
 configure_requires:
   ExtUtils::MakeMaker: '0'
 dynamic_config: 1
@@ -40,5 +41,5 @@ requires:
   perl: '5.008'
 resources:
   repository: https://github.com/rentrak/perl-raven
-version: '0.05'
+version: '0.06'
 x_homepage: https://github.com/rentrak/perl-raven
