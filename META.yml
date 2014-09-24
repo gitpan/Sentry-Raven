@@ -43,5 +43,5 @@ requires:
   perl: '5.008'
 resources:
   repository: https://github.com/rentrak/perl-raven
-version: '0.07'
+version: '0.08'
 x_homepage: https://github.com/rentrak/perl-raven
